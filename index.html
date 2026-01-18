@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Resume Builder</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            padding: 30px;
+        }
+        input, textarea, button {
+            width: 100%;
+            margin: 8px 0;
+            padding: 10px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        pre {
+            background: white;
+            padding: 15px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<h2>AI Resume Builder</h2>
+
+<input id="name" placeholder="Name">
+<input id="skills" placeholder="Skills">
+<input id="education" placeholder="Education">
+<input id="projects" placeholder="Projects">
+<input id="job_role" placeholder="Job Role">
+
+<button onclick="generateResume()">Generate Resume</button>
+
+<h3>Generated Resume</h3>
+<pre id="output"></pre>
+
+<script>
+async function generateResume() {
+    const data = {
+        name: document.getElementById("name").value,
+        skills: document.getElementById("skills").value,
+        education: document.getElementById("education").value,
+        projects: document.getElementById("projects").value,
+        job_role: document.getElementById("job_role").value
+    };
+
+    const response = await fetch("http://127.0.0.1:8000/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    document.getElementById("output").textContent = result.resume;
+}
+</script>
+
+</body>
+</html>
